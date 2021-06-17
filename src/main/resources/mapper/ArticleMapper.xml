@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mapper.ArticleMapper">
+    <select id="list" resultType="com.entity.Article">
+        select * from article
+        <where>
+            <if test="params.type != null and params.type != ''">
+                and type = #{params.type}
+            </if>
+            <if test="params.types != null and params.types.size() > 0">
+                and type in
+                <foreach collection="params.types" open="(" close=")" item="type" separator=",">
+                    #{type}
+                </foreach>
+            </if>
+        </where>
+        <if test="params.order != null and params.order != ''">
+            order by ${params.order} DESC
+        </if>
+    </select>
+</mapper>
